@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { loginAPI, registerAPI } from "../Services/AuthService";
 import { toast } from "react-toastify";
 import React from "react";
-import axios from "axios";
+import apiClient from "../Helpers/AxiosInstance"; // Use your custom Axios instance
 
 type UserContextType = {
   user: UserProfile | null;
@@ -26,73 +26,83 @@ export const UserProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    if (user && token) {
-      setUser(JSON.parse(user));
-      setToken(token);
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      console.log("Token set in axios defaults:", token);
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+    if (storedUser && storedToken) {
+      setUser(JSON.parse(storedUser));
+      setToken(storedToken);
+      setAuthToken(storedToken);
+      console.log("Token set in Axios instance:", storedToken);
     }
     setIsReady(true);
   }, []);
+
+  const setAuthToken = (token: string | null) => {
+    if (token) {
+      apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } else {
+      delete apiClient.defaults.headers.common["Authorization"];
+    }
+  };
 
   const registerUser = async (
     email: string,
     username: string,
     password: string
   ) => {
-    await registerAPI(email, username, password)
-      .then((res) => {
-        if (res) {
-          localStorage.setItem("token", res?.data.token);
-          const userObj = {
-            userName: res?.data.userName,
-            email: res?.data.email,
-          };
-          localStorage.setItem("user", JSON.stringify(userObj));
-          setToken(res?.data.token!);
-          setUser(userObj!);
-          axios.defaults.headers.common["Authorization"] = "Bearer " + res?.data.token;
-          console.log("Token set after registration:", res?.data.token);
-          toast.success("Login Success!");
-          navigate("/search");
-        }
-      })
-      .catch((e) => toast.warning("Server error occurred"));
+    try {
+      const res = await registerAPI(email, username, password);
+      if (res) {
+        const newToken = res.data.token;
+        const userObj = {
+          userName: res.data.userName,
+          email: res.data.email,
+        };
+        localStorage.setItem("token", newToken);
+        localStorage.setItem("user", JSON.stringify(userObj));
+        setToken(newToken);
+        setUser(userObj);
+        setAuthToken(newToken);
+        console.log("Token set after registration:", newToken);
+        toast.success("Registration Successful!");
+        navigate("/search");
+      }
+    } catch (e) {
+      toast.warning("Server error occurred");
+    }
   };
 
   const loginUser = async (username: string, password: string) => {
-    await loginAPI(username, password)
-      .then((res) => {
-        if (res) {
-          localStorage.setItem("token", res?.data.token);
-          const userObj = {
-            userName: res?.data.userName,
-            email: res?.data.email,
-          };
-          localStorage.setItem("user", JSON.stringify(userObj));
-          setToken(res?.data.token!);
-          setUser(userObj!);
-          axios.defaults.headers.common["Authorization"] = "Bearer " + res?.data.token;
-          console.log("Token set after login:", res?.data.token);
-          toast.success("Login Success!");
-          navigate("/search");
-        }
-      })
-      .catch((e) => toast.warning("Server error occurred"));
+    try {
+      const res = await loginAPI(username, password);
+      if (res) {
+        const newToken = res.data.token;
+        const userObj = {
+          userName: res.data.userName,
+          email: res.data.email,
+        };
+        localStorage.setItem("token", newToken);
+        localStorage.setItem("user", JSON.stringify(userObj));
+        setToken(newToken);
+        setUser(userObj);
+        setAuthToken(newToken);
+        console.log("Token set after login:", newToken);
+        toast.success("Login Successful!");
+        navigate("/search");
+      }
+    } catch (e) {
+      toast.warning("Server error occurred");
+    }
   };
 
-  const isLoggedIn = () => {
-    return !!user;
-  };
+  const isLoggedIn = () => !!user;
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
-    setToken("");
-    delete axios.defaults.headers.common["Authorization"];
+    setToken(null);
+    setAuthToken(null);
     navigate("/");
   };
 

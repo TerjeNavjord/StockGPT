@@ -1,6 +1,7 @@
 import axios from "axios";
 import { PortfolioGet, PortfolioPost } from "../Models/Portfolio";
 import { handleError } from "../Helpers/ErrorHandler";
+import apiClient from "../Helpers/AxiosInstance";
 
 const api = "http://localhost:5010/api/portfolio/";
 
@@ -24,7 +25,7 @@ export const portfolioDeleteAPI = async (symbol: string) => {
 
 export const portfolioGetAPI = async () => {
   try {
-    const data = await axios.get<PortfolioGet[]>(api);
+    const data = await apiClient.get<PortfolioGet[]>("/portfolio/");
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
