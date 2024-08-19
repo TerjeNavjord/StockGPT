@@ -150,7 +150,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Set the correct web root path
-app.Environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+app.Environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
