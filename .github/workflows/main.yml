@@ -1,12 +1,13 @@
-name: Deploy to Azure
+name: Build and Deploy ASP.NET Core and React App to Azure Web App
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,32 +17,31 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.x' # Specify your .NET Core version
+          dotnet-version: '8.x'
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '21.x' # Specify your Node.js version
+          node-version: '21.x' # Adjusted to match your local version
 
-      - name: Install dependencies
-        run: |
-          npm install --prefix frontend # If your React project is in a "frontend" folder
-          dotnet restore
+      - name: Install frontend dependencies
+        run: npm install --prefix frontend
 
       - name: Build the React app
+        run: npm run build --prefix frontend
+
+      - name: Publish .NET Core API
+        run: dotnet publish ./api/api.csproj --configuration Release --output ./publish
+
+      - name: Move React build to API's wwwroot
         run: |
-          npm run build --prefix frontend
-
-      - name: Build the .NET Core API
-        run: dotnet build --configuration Release
-
-      - name: Publish the .NET Core API
-        run: dotnet publish --configuration Release --output ./publish
+          mkdir -p ./publish/wwwroot
+          cp -r ./frontend/build/* ./publish/wwwroot/
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: "StockGPT" # Replace with your Azure App Service name
+          app-name: "StockGPT"
           slot-name: "production"
-          publish-profile: ${{ secrets.AZURE_CREDENTIALS }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CBB460B0B6954D1A87638B5814FB7EF7 }}
           package: ./publish
