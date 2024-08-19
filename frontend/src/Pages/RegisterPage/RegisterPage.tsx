@@ -103,7 +103,7 @@ const RegisterPage = (props: Props) => {
               </div>
               <div className="flex items-center justify-between">
                 <a
-                  href="#"
+                  href="/"
                   className="text-sm text-white font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Forgot password?
@@ -118,7 +118,7 @@ const RegisterPage = (props: Props) => {
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
                 <a
-                  href="#"
+                  href="/"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Sign up

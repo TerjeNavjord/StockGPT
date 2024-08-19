@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { getHistoricalDividend } from "../../api";
-import Spinner from "../Spinners/Spinner";
+// import Spinner from "../Spinners/Spinner";
 import SimpleLineChart from "../SimpleLineChart/SimpleLineChart";
 import { Dividend } from "../../company";
 
@@ -23,7 +23,7 @@ const HistoricalDividend = (props: Props) => {
       );
     };
     fetchHistoricalDividend();
-  }, []);
+  }, [ticker]);
   return (
     <>
       {dividend && dividend.length > 0 && dividend !== undefined ? (

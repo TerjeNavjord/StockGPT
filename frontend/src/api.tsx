@@ -9,7 +9,7 @@ import {
   CompanySearch,
   CompanyTenK,
   CompanyHistoricalDividend,
-  Dividend,
+ // Dividend,
 } from "./company";
 
 export interface SearchResponse {

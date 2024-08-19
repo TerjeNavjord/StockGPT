@@ -3,11 +3,11 @@ import { CompanyBalanceSheet } from "../../company";
 import { useOutletContext } from "react-router-dom";
 import RatioList from "../RatioList/RatioList";
 import { getBalanceSheet } from "../../api";
-import Table from "../Table/Table";
+// import Table from "../Table/Table";
 import Spinner from "../Spinners/Spinner";
 import {
   formatLargeMonetaryNumber,
-  formatLargeNonMonetaryNumber,
+  // formatLargeNonMonetaryNumber,
 } from "../../Helpers/NumberFormatting";
 
 type Props = {};
@@ -89,7 +89,7 @@ const BalanceSheet = (props: Props) => {
       setCompanyData(value?.data[0]);
     };
     getCompanyData();
-  }, []);
+  }, [ticker]);
   return (
     <>
       {companyData ? (

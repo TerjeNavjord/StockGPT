@@ -80,12 +80,12 @@ const LoginPage = (props: Props) => {
                 )}
               </div>
               <div className="flex items-center justify-between">
-                <a
-                  href="#"
+                <button
+                  type="button"
                   className="text-sm text-white font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Forgot password?
-                </a>
+                >Forgot password?</button>
+                  
+                
               </div>
               <button
                 type="submit"
@@ -95,12 +95,12 @@ const LoginPage = (props: Props) => {
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
-                <a
-                  href="#"
+                <button
+                  type="button"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Sign up
-                </a>
+                >Sign up</button>
+                  
+                
               </p>
             </form>
           </div>

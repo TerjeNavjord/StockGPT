@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import React, {  } from "react";
 import {
   LineChart,
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
+ // CartesianGrid,
+ // Tooltip,
+ // Legend,
   ResponsiveContainer,
 } from "recharts";
 
