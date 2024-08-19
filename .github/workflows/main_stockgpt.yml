@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy ASP.Net Core app to Azure Web App - StockGPT
+name: Build and Deploy ASP.NET Core and React App to Azure Web App
 
 on:
   push:
@@ -11,46 +8,40 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Set up .NET Core
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.x'
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
-
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          node-version: '21.x' # Adjusted to match your local version
 
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-app
-      
+      - name: Install frontend dependencies
+        run: npm install --prefix frontend
+
+      - name: Build the React app
+        run: npm run build --prefix frontend
+
+      - name: Publish .NET Core API
+        run: dotnet publish ./api/api.csproj --configuration Release --output ./publish
+
+      - name: Move React build to API's wwwroot
+        run: |
+          mkdir -p ./publish/wwwroot
+          cp -r ./frontend/build/* ./publish/wwwroot/
+
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+        uses: azure/webapps-deploy@v2
         with:
-          app-name: 'StockGPT'
-          slot-name: 'Production'
-          package: .
+          app-name: "StockGPT"
+          slot-name: "production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CBB460B0B6954D1A87638B5814FB7EF7 }}
+          package: ./publish
