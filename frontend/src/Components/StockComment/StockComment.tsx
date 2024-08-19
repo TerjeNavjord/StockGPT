@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import StockCommentForm from "./StockCommentForm/StockCommentForm";
 import { commentGetAPI, commentPostAPI } from "../../Services/CommentService";
 import { toast } from "react-toastify";
@@ -19,10 +19,19 @@ const StockComment = ({ stockSymbol }: Props) => {
   const [comments, setComment] = useState<CommentGet[] | null>(null);
   const [loading, setLoading] = useState<boolean>();
 
+  const 
+  getComments = useCallback(() => {
+    setLoading(true);
+    commentGetAPI(stockSymbol).then((res) => {
+      setLoading(false);
+      setComment(res?.data!);
+    });
+  }, [stockSymbol]);
+  
   useEffect(() => {
     getComments();
   }, [getComments]);
-
+  
   const handleComment = (e: CommentFormInputs) => {
     commentPostAPI(e.title, e.content, stockSymbol)
       .then((res) => {
@@ -34,14 +43,6 @@ const StockComment = ({ stockSymbol }: Props) => {
       .catch((e) => {
         toast.warning(e);
       });
-  };
-
-  const getComments = () => {
-    setLoading(true);
-    commentGetAPI(stockSymbol).then((res) => {
-      setLoading(false);
-      setComment(res?.data!);
-    });
   };
   return (
     <div className="flex flex-col">
