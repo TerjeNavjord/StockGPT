@@ -28,6 +28,9 @@ jobs:
         run: npm install --prefix frontend
 
       - name: Build the React app
+        env: 
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_KEY }}
+          REACT_APP_BACKEND_BASE_URL: ${{ secrets.REACT_APP_BACKEND_BASE_URL }}
         run: npm run build --prefix frontend
 
       - name: Install dependencies
