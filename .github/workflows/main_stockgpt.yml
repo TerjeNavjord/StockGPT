@@ -51,7 +51,7 @@ jobs:
 
       - name: Move React build to API's wwwroot
         run: |
-          cp -r ./frontend/build/* ./publish/
+          cp -r ./frontend/build/* ./publish/wwwroot
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
