@@ -153,6 +153,11 @@ else {
 }
 
 app.UseHttpsRedirection();
+
+// Explicitly set the WebRootPath
+builder.Environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+
+
 app.UseStaticFiles();
 
 app.UseRouting();
