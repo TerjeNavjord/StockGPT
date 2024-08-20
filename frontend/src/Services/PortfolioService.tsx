@@ -7,7 +7,7 @@ import apiClient from "../Helpers/AxiosInstance";
 
 export const portfolioAddAPI = async (symbol: string) => {
   try {
-    const data = await axios.post<PortfolioPost>(`/portfolio/?symbol=${symbol}`);
+    const data = await apiClient.post<PortfolioPost>(`/portfolio/?symbol=${symbol}`);
     return data;
   } catch (error) {
     handleError(error);
