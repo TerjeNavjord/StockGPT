@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useEffect } from "react";
 import CardPortfolio from "../CardPortfolio/CardPortfolio";
 import { PortfolioGet } from "../../../Models/Portfolio";
-import focusFieldBy from './../../../../node_modules/react-hook-form/dist/logic/focusFieldBy.d';
+// import focusFieldBy from './../../../../node_modules/react-hook-form/dist/logic/focusFieldBy.d';
 
 interface Props {
   portfolioValues: PortfolioGet[];
