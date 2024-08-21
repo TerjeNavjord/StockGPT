@@ -13,7 +13,8 @@ type RegisterFormsInputs = {
 };
 
 const validation = Yup.object().shape({
-  email: Yup.string().required("Email is required"),
+  email: Yup.string().required("Email is required")
+    .email("Email must be a valid email-address"),
   userName: Yup.string().required("Username is required"),
   password: Yup.string().required("Password is required"),
 });

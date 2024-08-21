@@ -24,7 +24,10 @@ const LoginPage = (props: Props) => {
     formState: { errors },
   } = useForm<LoginFormsInputs>({ resolver: yupResolver(validation) });
 
+  console.log(errors);
+
   const handleLogin = (form: LoginFormsInputs) => {
+    
     loginUser(form.userName, form.password);
   };
   return (
@@ -37,7 +40,10 @@ const LoginPage = (props: Props) => {
             </h1>
             <form
               className="space-y-4 md:space-y-6"
-              onSubmit={handleSubmit(handleLogin)}
+              onSubmit={(event) => {
+                event.preventDefault();
+                handleSubmit(handleLogin)();
+              }}
             >
               <div>
                 <label

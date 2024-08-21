@@ -17,18 +17,18 @@ const Navbar = (props: Props) => {
           </Link>
           <div className="hidden font-bold lg:flex">
             <Link to="/search" className="text-black hover:text-darkBlue">
-              Search
+              Stocks
             </Link>
           </div>
         </div>
         {isLoggedIn() ? (
           <div className="hidden lg:flex items-center space-x-6 text-back">
-            <div className="hover:text-darkBlue">Welcome, {user?.userName}</div>
+            <div className="hover:text-darkBlue"> {user?.userName}</div>
             <button
               onClick={logout}
               className="px-8 py-3 font-bold rounded text-white bg-lightGreen hover:opacity-70"
             >
-              Logout
+              Log out
             </button>
           </div>
         ) : (
@@ -40,7 +40,7 @@ const Navbar = (props: Props) => {
               to="/register"
               className="px-8 py-3 font-bold rounded text-white bg-lightGreen hover:opacity-70"
             >
-              Signup
+              Sign up
             </Link>
           </div>
         )}

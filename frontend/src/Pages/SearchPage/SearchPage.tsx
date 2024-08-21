@@ -22,6 +22,7 @@ const SearchPage = (props: Props) => {
   );
   const [searchResult, setSearchResult] = useState<CompanySearch[]>([]);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [hasSearched, setHasSearched] = useState(false);
 
   useEffect(() => {
     getPortfolio();
@@ -71,6 +72,7 @@ const SearchPage = (props: Props) => {
     e.preventDefault();
     const result = await searchCompanies(search);
     //setServerError(result.data);
+    setHasSearched(true);
     if (typeof result === "string") {
       setServerError(result);
     } else if (Array.isArray(result.data)) {
@@ -84,13 +86,15 @@ const SearchPage = (props: Props) => {
         search={search}
         handleSearchChange={handleSearchChange}
       />
+      {hasSearched && (
+        <CardList
+          searchResults={searchResult}
+          onPortfolioCreate={onPortfolioCreate}
+        />
+      ) }     
       <ListPortfolio
         portfolioValues={portfolioValues!}
         onPortfolioDelete={onPortfolioDelete}
-      />
-      <CardList
-        searchResults={searchResult}
-        onPortfolioCreate={onPortfolioCreate}
       />
       {serverError && <div>Unable to connect to API</div>}
     </>

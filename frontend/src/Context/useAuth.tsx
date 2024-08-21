@@ -74,26 +74,35 @@ export const UserProvider = ({ children }: Props) => {
 
   const loginUser = async (username: string, password: string) => {
     try {
-      const res = await loginAPI(username, password);
-      if (res) {
-        const newToken = res.data.token;
+      const response = await loginAPI(username, password);
+  
+      if (response && response.data && response.data.token) {
+        const { token, userName, email } = response.data;
+  
         const userObj = {
-          userName: res.data.userName,
-          email: res.data.email,
+          userName,
+          email,
         };
-        localStorage.setItem("token", newToken);
+  
+        localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(userObj));
-        setToken(newToken);
+        setToken(token);
         setUser(userObj);
-        setAuthToken(newToken);
-        console.log("Token set after login:", newToken);
-        toast.success("Login Successful!");
-        navigate("/search");
+        setAuthToken(token);
+  
+        console.log("Token set after login:", token);
+        toast.success("Login successful!");
+        navigate("/search"); // Redirect only if login is successful
+      } else {
+        toast.error("Incorrect username or password."); // Show error if login fails
       }
-    } catch (e) {
-      toast.warning("Server error occurred");
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred while logging in. Please try again later.");
     }
   };
+  
+  
 
   const isLoggedIn = () => !!user;
 

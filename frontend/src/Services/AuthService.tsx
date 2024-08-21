@@ -1,5 +1,5 @@
 import axios from "axios";
-import { handleError } from "../Helpers/ErrorHandler";
+// import { handleError } from "../Helpers/ErrorHandler";
 import { UserProfileToken } from "../Models/User";
 import apiClient from "../Helpers/AxiosInstance";
 
@@ -13,7 +13,13 @@ export const loginAPI = async (username: string, password: string) => {
     });
     return data;
   } catch (error) {
-    handleError(error);
+    if (axios.isAxiosError(error)) {
+      console.error("Error response:", error.response);
+      console.error("Error message:", error.message);
+    } else {
+      console.error("Unexpected error:", error);
+    }
+   // handleError(error);
   }
 };
 
@@ -36,6 +42,6 @@ export const registerAPI = async (
     } else {
       console.error("Unexpected error:", error);
     }
-    handleError(error);
+    // handleError(error);
   }
 };
