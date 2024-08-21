@@ -22,7 +22,7 @@ const Search: React.FC<Props> = ({
     <section className="relative bg-gray-100">
       <div className="max-w-xl mx-auto p-1 space-y-1">
         <form
-          className="form relative flex flex-col w-full p-1 space-y-4 bg-darkBlue rounded-lg md:flex-row md:space-y-0 md:space-x-3"
+          className="form relative flex flex-col w-full p-0 space-y-4 bg-black rounded-lg md:flex-row md:space-y-0 md:space-x-3"
           onSubmit={onSearchSubmit}
         >
           <div className="relative flex-1">

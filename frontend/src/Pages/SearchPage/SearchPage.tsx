@@ -29,7 +29,12 @@ const SearchPage = (props: Props) => {
   }, []);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+    const value = e.target.value;
+    setSearch(value);
+    if (value === "") {
+     setSearchResult([]);
+      setHasSearched(false);
+    }
   };
 
   const getPortfolio = () => {
