@@ -19,6 +19,26 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
     setLoading(false);
   }, [portfolioValues]);
 
+  const handleUpdateInfo = async (symbol: string) => {
+    try {
+      const response = await fetch(`/api/update-info/${symbol}`);
+      const data = await response.json();
+      // Handle the updated information
+    } catch (error) {
+      console.error("Error updating info:", error);
+    }
+  };
+  
+  const handleGetRecommendation = async (symbol: string) => {
+    try {
+      const response = await fetch(`/api/get-recommendation/${symbol}`);
+      const data = await response.json();
+      // Handle the recommendation
+    } catch (error) {
+      console.error("Error getting recommendation:", error);
+    }
+  };
+
   return (
     <section id="portfolio">
       <h3 className="mb-3 mt-3 text-3xl font-semibold text-center md:text-4xl">
@@ -37,6 +57,8 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
                   key={portfolioValue.id}
                   portfolioValue={portfolioValue}
                   onPortfolioDelete={onPortfolioDelete}
+                  onUpdateInfo={handleUpdateInfo}
+                  onGetRecommendation={handleGetRecommendation}
                 />
               ))
             ) : (
