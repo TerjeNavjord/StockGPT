@@ -10,10 +10,13 @@ interface Props {
 
 const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
 
+  const [loading, setLoading] = React.useState(true);
+
   useEffect(() => {
     console.log("portfolioValues:", portfolioValues);
     console.log("Type of portfolioValues:", typeof portfolioValues);
     console.log("Is Array:", Array.isArray(portfolioValues));
+    setLoading(false);
   }, [portfolioValues]);
 
   return (
@@ -22,21 +25,27 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
         Followed Companies
       </h3>
       <div className="relative flex flex-col items-center max-w-5xl mx-auto space-y-10 px-10 mb-5 md:px-6 md:space-y-0 md:space-x-7 md:flex-row">
-        <>
-        {Array.isArray(portfolioValues) && portfolioValues.length > 0 ? (
-          portfolioValues.map((portfolioValue) => (
-           <CardPortfolio
-             key={portfolioValue.id}
-             portfolioValue={portfolioValue}
-             onPortfolioDelete={onPortfolioDelete}
-            />
-        ))
-) : (
-  <h3 className="mb-3 mt-3 text-xl font-semibold text-center md:text-xl">
-    You are not following any companies yet! Use the search to find companies to follow.
-  </h3>
-)}
-        </>
+      {loading ? (
+          <h3 className="mb-3 mt-3 text-xl font-semibold text-center md:text-xl">
+            Loading...
+          </h3>
+        ) : (
+          <>
+            {Array.isArray(portfolioValues) && portfolioValues.length > 0 ? (
+              portfolioValues.map((portfolioValue) => (
+                <CardPortfolio
+                  key={portfolioValue.id}
+                  portfolioValue={portfolioValue}
+                  onPortfolioDelete={onPortfolioDelete}
+                />
+              ))
+            ) : (
+              <h3 className="mb-3 mt-3 text-xl font-semibold text-center md:text-xl">
+                You are not following any companies yet! Use the search to find companies to follow.
+              </h3>
+            )}
+          </>
+        )}
       </div>
     </section>
   );
