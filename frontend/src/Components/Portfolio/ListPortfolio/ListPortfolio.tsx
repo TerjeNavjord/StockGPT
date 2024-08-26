@@ -21,7 +21,7 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
 
   const handleUpdateInfo = async (symbol: string) => {
     try {
-      const response = await fetch(`/api/update-info/${symbol}`);
+      //const response = await fetch(`/api/update-info/${symbol}`);
      // const data = await response.json();
       // Handle the updated information
     } catch (error) {
@@ -31,7 +31,7 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
   
   const handleGetRecommendation = async (symbol: string) => {
     try {
-      const response = await fetch(`/api/get-recommendation/${symbol}`);
+     // const response = await fetch(`/api/get-recommendation/${symbol}`);
      // const data = await response.json();
       // Handle the recommendation
     } catch (error) {
