@@ -32,7 +32,7 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
   const handleGetRecommendation = async (symbol: string) => {
     try {
       const response = await fetch(`/api/get-recommendation/${symbol}`);
-      const data = await response.json();
+     // const data = await response.json();
       // Handle the recommendation
     } catch (error) {
       console.error("Error getting recommendation:", error);
