@@ -22,7 +22,7 @@ const ListPortfolio = ({ portfolioValues, onPortfolioDelete }: Props) => {
   const handleUpdateInfo = async (symbol: string) => {
     try {
       const response = await fetch(`/api/update-info/${symbol}`);
-      const data = await response.json();
+     // const data = await response.json();
       // Handle the updated information
     } catch (error) {
       console.error("Error updating info:", error);
